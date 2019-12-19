@@ -1,16 +1,20 @@
 package Level_286_Unsolved;
+import static Level_286_Unsolved.Solution.INF;
 
 public class Main {
     public static void main(String[] args) {
-        int [][]rooms1 = {{2147483647,-1,0,2147483647},{2147483647,2147483647,2147483647,-1},{2147483647,-1,2147483647,-1},{0,-1,2147483647,2147483647}};
-        int [][]rooms2 = {
-                {2147483647,-1,0,2147483647},
-                {-1,-1,2147483647,-1},
-                {2147483647,-1,2147483647,-1},
-                {0,-1,2147483647,2147483647}};
+            int [][]rooms1 = {
+                    {INF, INF, INF, INF, INF, INF, INF},
+                    {INF, INF, INF, INF, INF, INF, INF},
+                    {INF, INF, INF, INF, INF, INF, INF},
+                    {INF, INF, INF, 0, INF, INF, INF},
+                    {INF, INF, INF, INF, INF, INF, INF},
+                    {INF, INF, INF, INF, INF, INF, INF},
+                    {INF, INF, INF, INF, INF, INF, INF}
+            };
         for(int[] x:rooms1){
             for(int y:x){
-                if(y==2147483647)
+                if(y==INF)
                     System.out.printf("INF"+" ");
                 else
                     System.out.printf(y+" ");
@@ -23,7 +27,7 @@ public class Main {
 
         for(int[] x:rooms1){
             for(int y:x){
-                if(y==2147483647)
+                if(y==INF)
                     System.out.printf("INF"+" ");
                 else
                 System.out.printf(y+" ");

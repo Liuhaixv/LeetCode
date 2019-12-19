@@ -45,8 +45,8 @@ class Solution {
         }
 
         //遍历
-        for (int y = 0; y < rooms.length; y++) {
-            for (int x = 0; x < rooms[y].length; x++) {
+        for (int x = 0; x < rooms.length; x++) {
+            for (int y = 0; y < rooms[x].length; y++) {
                 calculateDistance(x, y, this.rooms);
             }
         }
@@ -73,23 +73,26 @@ class Solution {
             while (!queue.isEmpty()) {
                 int addedNum = 0;//加入的节点数
                 for (int i = 1; i <= times; i++) {
-                    addedNum += addNextNodes(queue.peek());//添加队列头元素的所有子节点并检查是否有目标节点
-                    if (addedNum == -2) {//找到目标节点
+                    int addResult = addNextNodes(queue.peek());//添加队列头元素的所有子节点并检查是否有目标节点
+                    if (addResult < 0) {
+                        //找到目标节点
                         rooms[x][y] = length;
-                        length =1;
+                        length = 1;
                         queue.clear();
                         usedNodes.clear();
                         return;
+                    } else {
+                        //未找到目标节点
+                        addedNum += addResult;
+                        queue.poll();
                     }
-                    //未找到目标节点
-                    queue.poll();
                 }
                 times = addedNum;
                 length++;//开始下一轮搜索
             }
         }
         rooms[x][y] = INF;//未找到目标节点
-        length =1;
+        length = 1;
         queue.clear();
         usedNodes.clear();
     }
@@ -99,10 +102,16 @@ class Solution {
      */
     private int addNextNodes(Node peek) {
         int nums = 0;
-        for (int x = peek.x - 1; x <= peek.x + 1; x++) {
-            for (int y = peek.x - 1; y <= peek.x + 1; y++) {
-                //检查节点是否越界
-                if (isValidNode(x, y)) {
+        int peekX = peek.x;
+        int peekY = peek.y;
+        Node[] directions = {new Node(peekX - 1, peekY), new Node(peekX + 1, peekY), new Node(peekX, peekY - 1), new Node(peekX, peekY + 1)};//上下左右四个方向
+        for (Node direction : directions) {
+            int x = direction.x;
+            int y = direction.y;
+            //检查节点是否越界
+            if (!isNodeOutOfBound(x, y)) {
+                //检查是否不为墙
+                if (isValidRoad(x, y)) {
                     //检查节点是否已遍历过
                     if (!usedNodes.contains(new Node(x, y))) {
                         //检查是否为目标节点
@@ -119,21 +128,29 @@ class Solution {
                 }
             }
         }
+
         return nums;
+    }
+
+    private boolean isValidRoad(int x, int y) {
+        if (rooms[x][y] != -1) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * 判断是否越界
      */
-    private boolean isValidNode(int x, int y) {
+    private boolean isNodeOutOfBound(int x, int y) {
         //先判断是否越界
         if (x >= rooms.length || x < 0) {
-            return false;
+            return true;
         } else if (y >= rooms[x].length || y < 0) {
-            return false;
+            return true;
         }
 
         //判断节点是否为可走路径？否决
-        return true;
+        return false;
     }
 }
