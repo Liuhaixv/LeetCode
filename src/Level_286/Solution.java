@@ -1,4 +1,4 @@
-package Level_286_Unsolved;
+package Level_286;
 
 
 import java.util.*;

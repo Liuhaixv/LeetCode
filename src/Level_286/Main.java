@@ -1,5 +1,5 @@
-package Level_286_Unsolved;
-import static Level_286_Unsolved.Solution.INF;
+package Level_286;
+import static Level_286.Solution.INF;
 
 public class Main {
     public static void main(String[] args) {
